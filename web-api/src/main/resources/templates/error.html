@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Spring Boot管理后台</title>
+</head>
+<body>
+<div>
+    <div  id="navbar">
+        <h1>系统异常统一处理</h1>
+        <h3 th:text="'错误码：'+${errno}"></h3>
+        <h3 th:text="'错误信息：'+${error}"></h3>
+        <h3 th:text="'请求地址：'+${url}"></h3>
+        <h2>异常堆栈跟踪日志StackTrace</h2>
+        <div th:each="line:${stackTrace}">
+            <div th:text="${line}"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

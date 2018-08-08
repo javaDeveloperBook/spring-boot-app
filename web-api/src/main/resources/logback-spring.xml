@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!--日志输出控制台-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--日志输出到文件-->
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>web-logs/error/app-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>64 MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>
+                {
+                    "type":"web-api",
+                    "@timestamp":"%d{yyyy-MM-dd HH:mm:ss.SSS}",
+                    "level":"%level",
+                    "remote_addr":"%X{REMOTE_ADDR}",
+                    "keyword":"%X{KEYWORD}",
+                    "request":"%X{REQUEST}",
+                    "class_name":"%class",
+                    "line_number":"%line",
+                    "message":"%message",
+                    "stack_trace": "%exception{5}"
+                }
+            </pattern>
+        </encoder>
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+
+    </appender>
+
+    <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>web-logs/info/app-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>64 MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>
+                {
+                    "type":"web-api",
+                    "@timestamp":"%d{yyyy-MM-dd HH:mm:ss.SSS}",
+                    "level":"%level",
+                    "remote_addr":"%X{REMOTE_ADDR}",
+                    "keyword":"%X{KEYWORD}",
+                    "request":"%X{REQUEST}",
+                    "class_name":"%class",
+                    "line_number":"%line",
+                    "message":"%message",
+                    "stack_trace": "%exception{5}"
+                }
+            </pattern>
+        </encoder>
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+
+    </appender>
+
+    <!--指定最基础的日志输出级别，TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF-->
+    <root level="INFO">
+        <appender-ref ref="ERROR"/>
+        <appender-ref ref="INFO"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
