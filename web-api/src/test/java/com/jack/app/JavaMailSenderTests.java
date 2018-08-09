@@ -44,12 +44,10 @@ public class JavaMailSenderTests {
     public void testSendMimeMessage() throws Exception{
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true);
-
         helper.setFrom("747596887@qq.com");
         helper.setTo("1494805480@qq.com");
         helper.setSubject("主题邮件");
         helper.setText("有附件内容的邮件");
-
         FileSystemResource resource = new FileSystemResource(ResourceUtils.getFile("classpath:1.jpg"));
         helper.addAttachment("附件-1.jpg",resource);
         helper.addAttachment("附件-2.jpg",resource);
@@ -60,16 +58,13 @@ public class JavaMailSenderTests {
     public void sendInlineMail() throws Exception{
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message,true);
-
         helper.setFrom("747596887@qq.com");
         helper.setTo("1494805480@qq.com");
         helper.setSubject("静态资源邮件");
         // true 表示启动HTML格式的邮件
         helper.setText("<html><body><img src=\"cid:img1\" ></body></html>", true);
-
         FileSystemResource file = new FileSystemResource(ResourceUtils.getFile("classpath:1.jpg"));
         helper.addInline("img1",file);
-
         javaMailSender.send(message);
 
     }
@@ -78,16 +73,13 @@ public class JavaMailSenderTests {
     public void testSendHtmlMail() throws Exception{
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true);
-
         helper.setFrom("747596887@qq.com");
         helper.setTo("1494805480@qq.com");
         helper.setSubject("模板邮件");
-
         IContext context = new Context();
         ((Context) context).setVariable("name","Jackwu");
         String htmlText = thymeleaf.process("/email/email.html",context);
         helper.setText(htmlText,true);
-
         javaMailSender.send(mimeMessage);
     }
 
